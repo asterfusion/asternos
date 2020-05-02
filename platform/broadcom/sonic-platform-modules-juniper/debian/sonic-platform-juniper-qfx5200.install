@@ -1,3 +1,0 @@
-qfx5200/utils/juniper_qfx5200_util.py usr/local/bin
-qfx5200/utils/juniper_qfx5200_monitor.py usr/local/bin
-qfx5200/service/qfx5200-platform-init.service etc/systemd/system
