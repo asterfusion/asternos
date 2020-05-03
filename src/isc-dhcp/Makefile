@@ -19,8 +19,8 @@ $(addprefix $(DEST)/, $(MAIN_TARGET)): $(DEST)/% :
 	git reset --hard debian/$(ISC_DHCP_VERSION)
 
 	# Apply patches
-	stg init
-	stg import -s ../patch/series
+	#stg init
+	#stg import -s ../patch/series
 
 	# Build source and Debian packages
 	dpkg-buildpackage -rfakeroot -b -us -uc -j$(SONIC_CONFIG_MAKE_JOBS)
