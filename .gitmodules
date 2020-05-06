@@ -1,9 +1,6 @@
 [submodule "sonic-swss-common"]
 	path = src/sonic-swss-common
 	url = https://github.com/Azure/sonic-swss-common
-[submodule "sonic-swss"]
-	path = src/sonic-swss
-	url = https://github.com/Azure/sonic-swss
 [submodule "sonic-dbsyncd"]
 	path = src/sonic-dbsyncd
 	url = https://github.com/Azure/sonic-dbsyncd
@@ -47,3 +44,6 @@
 [submodule "asternos-sairedis"]
 	path = src/sonic-sairedis
 	url = https://github.com/asterfusion/asternos-sairedis.git
+[submodule "asternos-swss"]
+	path = src/sonic-swss
+	url = https://github.com/asterfusion/asternos-swss.git
