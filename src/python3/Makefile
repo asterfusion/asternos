@@ -8,11 +8,11 @@ PYTHON_PNAME=python3.7
 
 MAIN_TARGET = lib$(PYTHON_PNAME)-minimal_$(PYTHON_VER)-$(PYTHON_DEB_VER)_$(CONFIGURED_ARCH).deb
 DERIVED_TARGETS = lib$(PYTHON_PNAME)-stdlib_$(PYTHON_VER)-$(PYTHON_DEB_VER)_$(CONFIGURED_ARCH).deb \
-				  lib$(PYTHON_PNAME)-all_$(PYTHON_VER)-$(PYTHON_DEB_VER)_$(CONFIGURED_ARCH).deb \
+				  lib$(PYTHON_PNAME)_$(PYTHON_VER)-$(PYTHON_DEB_VER)_$(CONFIGURED_ARCH).deb \
 				  $(PYTHON_PNAME)-minimal_$(PYTHON_VER)-$(PYTHON_DEB_VER)_$(CONFIGURED_ARCH).deb \
-				  $(PYTHON_PNAME)-all_$(PYTHON_VER)-$(PYTHON_DEB_VER)_$(CONFIGURED_ARCH).deb \
-				  lib$(PYTHON_PNAME)-dev_$(PYTHON_VER)-$(PYTHON_DEB_VER)_$(CONFIGURED_ARCH).deb \
-				  $(PYTHON_PNAME)-dev_$(PYTHON_VER)-$(PYTHON_DEB_VER)_$(CONFIGURED_ARCH).deb
+				  $(PYTHON_PNAME)_$(PYTHON_VER)-$(PYTHON_DEB_VER)_$(CONFIGURED_ARCH).deb \
+				  lib$(PYTHON_PNAME)-dev_$(PYTHON_VER)-$(PYTHON_DEB_VER)_$(CONFIGURED_ARCH).deb 
+				  #$(PYTHON_PNAME)-dev_$(PYTHON_VER)-$(PYTHON_DEB_VER)_$(CONFIGURED_ARCH).deb
 
 $(addprefix $(DEST)/, $(MAIN_TARGET)): $(DEST)/% :
 	# Remove any stale files
@@ -35,7 +35,7 @@ $(addprefix $(DEST)/, $(MAIN_TARGET)): $(DEST)/% :
 	fi
 	done
 
-	dpkg-buildpackage -rfakeroot -us -uc -b -j$(SONIC_CONFIG_MAKE_JOBS)
+	DEB_BUILD_OPTIONS="nocheck" dpkg-buildpackage -rfakeroot -us -uc -b -j$(SONIC_CONFIG_MAKE_JOBS)
 	popd
 
 	cp $(DERIVED_TARGETS) $* $(DEST)/

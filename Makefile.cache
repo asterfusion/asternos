@@ -514,7 +514,7 @@ $(addsuffix .$(3),$(addprefix $(2)/, $(1))) : $(2)/%.$(3) : \
 	$(2)/%.flags   $$$$($$$$*_SMDEP_FILES)
 	@$$(eval $$*_SMDEP_FILES_MODIFIED := $$? )
 	@$$(file >$$@,$$(patsubst $$($$*_MOD_SRC_PATH)/%,%,$$($$*_SMDEP_FILES)))
-	@( cd $$($$*_MOD_SRC_PATH) ; cat $$($$*_BASE_PATH)/$$@  |xargs git hash-object ) >$$@.smsha
+	@( cd $$($$*_MOD_SRC_PATH) ; cat $$($$*_BASE_PATH)/$$@  |xargs git ls-files -s|cut -d ' ' -f 2  ) >$$@.smsha
 	@$$(if $$(MDEBUG), $$(info SMDEP:$$@, MOD:$$?))
 endef
 $(eval $(call SMSHA_DEP_RULES, $(SONIC_MAKE_DEBS) $(SONIC_DPKG_DEBS) $(SONIC_ONLINE_DEBS) $(SONIC_COPY_DEBS), $(DEBS_PATH),smdep))

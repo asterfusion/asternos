@@ -249,6 +249,7 @@ sonic-slave-bash :
 	@docker inspect --type image $(SLAVE_IMAGE):$(SLAVE_TAG) &> /dev/null || \
 	    { echo Image $(SLAVE_IMAGE):$(SLAVE_TAG) not found. Building... ; \
 	    $(DOCKER_BUILD) ; }
+	echo $(DOCKER_RUN) -t $(SLAVE_IMAGE):$(SLAVE_TAG)
 	@$(DOCKER_RUN) -t $(SLAVE_IMAGE):$(SLAVE_TAG) bash
 
 sonic-slave-run :

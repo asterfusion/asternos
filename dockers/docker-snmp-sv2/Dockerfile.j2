@@ -14,7 +14,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Install curl so we can download and install pip later
 # Also install major root CA certificates for curl to reference
 # Install gcc which is required for installing hiredis
-# Install libdpkg-perl which is required for python3.6-3.6.0 as one of its specs i.e. no-pie-compile.specs
+# Install libdpkg-perl which is required for python3.7-3.7.2 as one of its specs i.e. no-pie-compile.specs
 # The file referenced (`/usr/share/dpkg/no-pie-compile.specs`) is in the `libdpkg-perl` package on Debian
 RUN apt-get update   && \
     apt-get install -y  \
@@ -42,12 +42,15 @@ ENV LC_CTYPE=en_US.UTF-8
 RUN sed -i '/^#.* en_US.* /s/^#//' /etc/locale.gen
 RUN locale-gen
 
+# Install python3-distutils because distutils removed from python3.7
+RUN apt-get install -y python3-distutils
+
 # Install up-to-date version of pip
-RUN curl https://bootstrap.pypa.io/get-pip.py | python3.6
+RUN curl https://bootstrap.pypa.io/get-pip.py | python3.7
 
 # Install pyyaml dependency for use by some plugins
 # Install smbus dependency for use by some plugins
-RUN python3.6 -m pip install --no-cache-dir \
+RUN python3.7 -m pip install --no-cache-dir \
         hiredis                             \
         pyyaml                              \
         smbus
@@ -60,12 +63,12 @@ RUN python3.6 -m pip install --no-cache-dir \
 {{ install_python_wheels(docker_snmp_sv2_whls.split(' ')) }}
 {% endif %}
 
-RUN python3.6 -m sonic_ax_impl install
+RUN python3.7 -m sonic_ax_impl install
 
 # Clean up
 RUN apt-get -y purge     \
-        libpython3.6-dev \
-        libpython3.6     \
+        libpython3.7-dev \
+        libpython3.7     \
         curl             \
         gcc              \
         make             \

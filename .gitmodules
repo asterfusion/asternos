@@ -30,7 +30,7 @@
 	url = https://github.com/Azure/sonic-platform-daemons
 [submodule "src/redis-dump-load"]
 	path = src/redis-dump-load
-	url = https://github.com/p/redis-dump-load.git
+	url = https://github.com/asterfusion/redis-dump-load.git
 [submodule "src/sonic-mgmt-framework"]
 	path = src/sonic-mgmt-framework
 	url = https://github.com/Azure/sonic-mgmt-framework
