@@ -30,11 +30,6 @@ class TestJ2FilesT2ChassisFe(TestCase):
         return subprocess.check_output('diff -u {} {} || true'.format(file1, file2), shell=True)
 
     def run_case(self, minigraph, template, target):
-        template_dir = os.path.join(self.test_dir, '..', '..', '..', 'dockers', 'docker-fpm-frr', "frr")
-        conf_template = os.path.join(template_dir, template)
-        constants = os.path.join(self.test_dir, '..', '..', '..', 'files', 'image_config', 'constants', 'constants.yml')
-        cmd_args = minigraph, self.t2_chassis_fe_port_config, constants, conf_template, template_dir, self.output_file
-        cmd = "-m %s -p %s -y %s -t %s -T %s > %s" % cmd_args
         self.run_script(cmd)
 
         original_filename = os.path.join(self.test_dir, 'sample_output', target)
@@ -42,16 +37,3 @@ class TestJ2FilesT2ChassisFe(TestCase):
         diff_output = self.run_diff(original_filename, self.output_file) if not r else ""
 
         return r, "Diff:\n" + diff_output
-
-    # Test zebra.conf in FRR docker for a T2 chassis frontend (fe)
-    def test_t2_chassis_fe_zebra_frr(self):
-        self.assertTrue(*self.run_case(self.t2_chassis_fe_minigraph, 'zebra/zebra.conf.j2', 't2-chassis-fe-zebra.conf'))
-
-    # Test zebra.conf in FRR docker for a T2 chassis frontend (fe) switch with specified VNI
-    def test_t2_chassis_fe_vni_zebra_frr(self):
-        self.assertTrue(*self.run_case(self.t2_chassis_fe_vni_minigraph, 'zebra/zebra.conf.j2', 't2-chassis-fe-vni-zebra.conf'))
-
-    # Test bgpd.conf in FRR docker for a T2 chassis frontend (fe)
-    def test_t2_chassis_frontend_bgpd_frr(self):
-        self.assertTrue(*self.run_case(self.t2_chassis_fe_minigraph, 'bgpd/bgpd.conf.j2', 't2-chassis-fe-bgpd.conf'))
-

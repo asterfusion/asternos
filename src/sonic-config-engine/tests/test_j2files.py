@@ -62,21 +62,6 @@ class TestJ2Files(TestCase):
         self.run_script(argument)
         self.assertTrue(filecmp.cmp(os.path.join(self.test_dir, 'sample_output', 'lldpd.conf'), self.output_file))
 
-    def test_bgpd_quagga(self):
-        conf_template = os.path.join(self.test_dir, '..', '..', '..', 'dockers', 'docker-fpm-quagga', 'bgpd.conf.j2')
-        argument = '-m ' + self.t0_minigraph + ' -p ' + self.t0_port_config + ' -t ' + conf_template + ' > ' + self.output_file
-        self.run_script(argument)
-        original_filename = os.path.join(self.test_dir, 'sample_output', 'bgpd_quagga.conf')
-        r = filecmp.cmp(original_filename, self.output_file)
-        diff_output = self.run_diff(original_filename, self.output_file) if not r else ""
-        self.assertTrue(r, "Diff:\n" + diff_output)
-
-    def test_zebra_quagga(self):
-        conf_template = os.path.join(self.test_dir, '..', '..', '..', 'dockers', 'docker-fpm-quagga', 'zebra.conf.j2')
-        argument = '-m ' + self.t0_minigraph + ' -p ' + self.t0_port_config + ' -t ' + conf_template + ' > ' + self.output_file
-        self.run_script(argument)
-        self.assertTrue(filecmp.cmp(os.path.join(self.test_dir, 'sample_output', 'zebra_quagga.conf'), self.output_file))
-
     def test_ipinip(self):
         ipinip_file = os.path.join(self.test_dir, '..', '..', '..', 'dockers', 'docker-orchagent', 'ipinip.json.j2')
         argument = '-m ' + self.t0_minigraph + ' -p ' + self.t0_port_config + ' -t ' + ipinip_file + ' > ' + self.output_file
@@ -92,44 +77,6 @@ class TestJ2Files(TestCase):
         sample_output_file = os.path.join(self.test_dir, 'sample_output', 'l2switch.json')
 
         self.assertTrue(filecmp.cmp(sample_output_file, self.output_file))
-
-    def test_qos_dell6100_render_template(self):
-        dell_dir_path = os.path.join(self.test_dir, '..', '..', '..', 'device', 'dell', 'x86_64-dell_s6100_c2538-r0', 'Force10-S6100')
-        qos_file = os.path.join(dell_dir_path, 'qos.json.j2')
-        port_config_ini_file = os.path.join(dell_dir_path, 'port_config.ini')
-
-        # copy qos_config.j2 to the Dell S6100 directory to have all templates in one directory
-        qos_config_file = os.path.join(self.test_dir, '..', '..', '..', 'files', 'build_templates', 'qos_config.j2')
-        shutil.copy2(qos_config_file, dell_dir_path)
-
-        argument = '-m ' + self.dell6100_t0_minigraph + ' -p ' + port_config_ini_file + ' -t ' + qos_file + ' > ' + self.output_file
-        self.run_script(argument)
-
-        # cleanup
-        qos_config_file_new = os.path.join(dell_dir_path, 'qos_config.j2')
-        os.remove(qos_config_file_new)
-
-        sample_output_file = os.path.join(self.test_dir, 'sample_output', 'qos-dell6100.json')
-        assert filecmp.cmp(sample_output_file, self.output_file)
-
-    def test_buffers_dell6100_render_template(self):
-        dell_dir_path = os.path.join(self.test_dir, '..', '..', '..', 'device', 'dell', 'x86_64-dell_s6100_c2538-r0', 'Force10-S6100')
-        buffers_file = os.path.join(dell_dir_path, 'buffers.json.j2')
-        port_config_ini_file = os.path.join(dell_dir_path, 'port_config.ini')
-
-        # copy buffers_config.j2 to the Dell S6100 directory to have all templates in one directory
-        buffers_config_file = os.path.join(self.test_dir, '..', '..', '..', 'files', 'build_templates', 'buffers_config.j2')
-        shutil.copy2(buffers_config_file, dell_dir_path)
-
-        argument = '-m ' + self.dell6100_t0_minigraph + ' -p ' + port_config_ini_file + ' -t ' + buffers_file + ' > ' + self.output_file
-        self.run_script(argument)
-
-        # cleanup
-        buffers_config_file_new = os.path.join(dell_dir_path, 'buffers_config.j2')
-        os.remove(buffers_config_file_new)
-
-        sample_output_file = os.path.join(self.test_dir, 'sample_output', 'buffers-dell6100.json')
-        assert filecmp.cmp(sample_output_file, self.output_file)
 
     def tearDown(self):
         try:
