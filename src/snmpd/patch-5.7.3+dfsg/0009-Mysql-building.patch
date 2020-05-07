@@ -1,0 +1,52 @@
+diff -urNp old/apps/snmptrapd_sql.c new/apps/snmptrapd_sql.c
+--- old/apps/snmptrapd_sql.c	2017-07-18 09:44:00.655109694 +0200
++++ new/apps/snmptrapd_sql.c	2017-07-19 12:51:14.836148821 +0200
+@@ -54,6 +54,7 @@
+ #include <my_sys.h>
+ #include <mysql.h>
+ #include <errmsg.h>
++#include <mysql_version.h>
+ 
+ netsnmp_feature_require(container_fifo)
+ 
+@@ -437,6 +438,7 @@ netsnmp_mysql_init(void)
+         return -1;
+     }
+ 
++#if MYSQL_VERSION_ID < 100000
+ #ifdef HAVE_BROKEN_LIBMYSQLCLIENT
+     my_init();
+ #else
+@@ -445,6 +447,7 @@ netsnmp_mysql_init(void)
+ 
+     /** load .my.cnf values */
+     load_defaults ("my", _sql.groups, &not_argc, &not_argv);
++#endif
+     for(i=0; i < not_argc; ++i) {
+         if (NULL == not_argv[i])
+             continue;
+@@ -542,6 +545,10 @@ netsnmp_mysql_init(void)
+         return -1;
+     }
+ 
++#if MYSQL_VERSION_ID > 100000
++    mysql_options(_sql.conn, MYSQL_READ_DEFAULT_GROUP, "snmptrapd");
++#endif
++
+     /** try to connect; we'll try again later if we fail */
+     (void) netsnmp_mysql_connect();
+ 
+diff -urNp old/configure.d/config_os_libs2 new/configure.d/config_os_libs2
+--- old/configure.d/config_os_libs2	2017-07-18 09:44:00.600109376 +0200
++++ new/configure.d/config_os_libs2	2017-07-19 12:51:43.268001205 +0200
+@@ -485,8 +485,8 @@ if test "x$with_mysql" = "xyes" ; then
+       [AC_MSG_RESULT(no)
+        AC_DEFINE([HAVE_BROKEN_LIBMYSQLCLIENT], 1,
+                  [Define if using MY_INIT() causes a linker error])])
+-  CPPFLAGS="${_cppflags}"
+-  LIBS="${_libs}"
++#  CPPFLAGS="${_cppflags}"
++#  LIBS="${_libs}"
+   AC_MSG_CACHE_ADD(MYSQL Trap Logging:         enabled)
+ else
+   AC_MSG_CACHE_ADD(MYSQL Trap Logging:         unavailable)
