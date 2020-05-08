@@ -1,0 +1,5 @@
+/.eggs/
+/build/
+/sonic_yang_models.egg-info/
+/tests/__pycache__/
+/yang-models/sonic_yang_tree
