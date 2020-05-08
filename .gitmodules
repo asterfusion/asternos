@@ -25,9 +25,6 @@
 [submodule "src/redis-dump-load"]
 	path = src/redis-dump-load
 	url = https://github.com/asterfusion/redis-dump-load.git
-[submodule "src/sonic-mgmt-framework"]
-	path = src/sonic-mgmt-framework
-	url = https://github.com/Azure/sonic-mgmt-framework
 [submodule "src/sonic-telemetry"]
 	path = src/sonic-telemetry
 	url = https://github.com/Azure/sonic-telemetry

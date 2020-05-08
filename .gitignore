@@ -85,6 +85,7 @@ src/smartmontools/*
 !src/smartmontools/Makefile
 src/snmpd/*
 !src/snmpd/Makefile
+!src/snmpd/patch-*/
 src/sonic-device-data/src/device/
 src/sonic-device-data/src/debian/
 src/supervisor/*

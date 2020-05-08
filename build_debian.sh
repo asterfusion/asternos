@@ -298,6 +298,8 @@ sudo LANG=C DEBIAN_FRONTEND=noninteractive chroot $FILESYSTEM_ROOT apt-get -y in
     conntrack               \
     python-pip              \
     python3-pip             \
+    python-wheel	    \
+    python3-wheel	    \
     cron                    \
     haveged
 

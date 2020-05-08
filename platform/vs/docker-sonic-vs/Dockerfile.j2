@@ -9,7 +9,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get install -y gnupg
 COPY ["sonic-dev.gpg.key", "/etc/apt/"]
 RUN apt-key add /etc/apt/sonic-dev.gpg.key
-RUN echo "deb http://packages.microsoft.com/repos/sonic-dev/ buster main" >> /etc/apt/sources.list
+#RUN echo "deb http:/// buster main" >> /etc/apt/sources.list
 RUN apt-get update
 
 RUN apt-get install -y net-tools \
@@ -20,19 +20,16 @@ RUN apt-get install -y net-tools \
                        ifupdown \
                        bridge-utils \
                        python-ply \
-                       libqt5core5a \
-                       libqt5network5 \
-                       libboost-program-options1.62.0 \
-                       libboost-system1.62.0 \
-                       libboost-thread1.62.0 \
+                       libboost-program-options1.67.0 \
+                       libboost-system1.67.0 \
+                       libboost-thread1.67.0 \
                        libgmp10 \
                        libjudydebian1 \
                        openssh-client \
                        openssh-server \
                        libc-ares2 \
-                       iproute \
+                       iproute2 \
                        grub2-common \
-                       python-click-default-group \
                        python-click \
                        python-natsort \
                        python-tabulate \
@@ -106,11 +103,6 @@ COPY ["database_config.json", "/etc/default/sonic-db/"]
 RUN mv /usr/sbin/tcpdump /usr/bin/tcpdump
 
 RUN echo "docker-sonic-vs" > /etc/hostname
-RUN mkdir -p /etc/quagga
-RUN touch /etc/quagga/zebra.conf
-
-# disable integrated vtysh config
-RUN rm /etc/frr/frr.conf
 
 # Create /var/warmboot/teamd folder for teammgrd
 RUN mkdir -p /var/warmboot/teamd
