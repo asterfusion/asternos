@@ -60,7 +60,10 @@ DEFAULT_USERINFO="Default admin user,,,"
     echo "Error: Invalid FILESYSTEM_SQUASHFS in onie image config file"
     exit 1
 }
-
+if [[ -f $FILESYSTEM_ROOT/.fsroot ]]; then
+    echo "debian rootfs created in ./fsroot"
+    exit 0
+fi 
 ## Prepare the file system directory
 if [[ -d $FILESYSTEM_ROOT ]]; then
     sudo rm -rf $FILESYSTEM_ROOT || die "Failed to clean chroot directory"
@@ -595,3 +598,5 @@ pushd $FILESYSTEM_ROOT && sudo tar czf $OLDPWD/$FILESYSTEM_DOCKERFS -C ${DOCKERF
 ## Compress together with /boot, /var/lib/docker and $PLATFORM_DIR as an installer payload zip file
 pushd $FILESYSTEM_ROOT && sudo zip $OLDPWD/$ONIE_INSTALLER_PAYLOAD -r boot/ $PLATFORM_DIR/; popd
 sudo zip -g $ONIE_INSTALLER_PAYLOAD $FILESYSTEM_SQUASHFS $FILESYSTEM_DOCKERFS
+
+touch $FILESYSTEM_ROOT/.fsroot

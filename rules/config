@@ -5,7 +5,7 @@
 # SONIC_CONFIG_PRINT_DEPENDENCIES - show dependencies for each invoked target.
 # Before executing rule for each target its dependencies are printed to console.
 # Uncomment next line to enable:
-# SONIC_CONFIG_PRINT_DEPENDENCIES = y
+SONIC_CONFIG_PRINT_DEPENDENCIES = y
 
 # SONIC_CONFIG_BUILD_JOBS - set number of jobs for parallel build.
 # Corresponding -j argument will be passed to make command inside docker
@@ -18,7 +18,7 @@ SONIC_CONFIG_MAKE_JOBS = $(shell nproc)
 
 # DEFAULT_BUILD_LOG_TIMESTAMP - add timestamp in build log
 # Supported format: simple, none
-DEFAULT_BUILD_LOG_TIMESTAMP = none
+DEFAULT_BUILD_LOG_TIMESTAMP = simple
 
 # SONIC_USE_DOCKER_BUILDKIT - use docker buildkit for build.
 # If set to y SONiC build system will set environment variable DOCKER_BUILDKIT=1
@@ -26,7 +26,7 @@ DEFAULT_BUILD_LOG_TIMESTAMP = none
 # This options will speed up docker image build time.
 # NOTE: SONIC_USE_DOCKER_BUILDKIT will produce larger installable SONiC image
 # because of a docker bug (more details: https://github.com/moby/moby/issues/38903)
-SONIC_USE_DOCKER_BUILDKIT = y
+#SONIC_USE_DOCKER_BUILDKIT = y
 
 # SONIC_CONFIG_USE_NATIVE_DOCKERD_FOR_BUILD - use native dockerd for build.
 # If set to y SONiC build container will use native dockerd instead of dind for faster build

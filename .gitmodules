@@ -25,6 +25,7 @@
 [submodule "src/sonic-telemetry"]
 	path = src/sonic-telemetry
 	url = https://github.com/Azure/sonic-telemetry
+	ignore = dirty
 [submodule "src/sonic-ztp"]
 	path = src/sonic-ztp
 	url = https://github.com/Azure/sonic-ztp

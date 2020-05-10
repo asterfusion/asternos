@@ -62,8 +62,10 @@ elif [ "$IMAGE_TYPE" = "raw" ]; then
     mkdir -p `dirname $OUTPUT_RAW_IMAGE`
     sudo rm -f $OUTPUT_RAW_IMAGE
 
-    generate_onie_installer_image
-
+    [ -r $OUTPUT_ONIE_IMAGE] || {
+	    echo "Warn: $OUTPUT_ONIE_IMAGE has not generated, going on...."
+    	    generate_onie_installer_image
+    }
     echo "Creating SONiC raw partition : $OUTPUT_RAW_IMAGE of size $RAW_IMAGE_DISK_SIZE MB"
     fallocate -l "$RAW_IMAGE_DISK_SIZE"M $OUTPUT_RAW_IMAGE
 
@@ -97,7 +99,10 @@ elif [ "$IMAGE_TYPE" = "kvm" ]; then
     KVM_IMAGE_DISK=${OUTPUT_KVM_IMAGE%.gz}
     sudo rm -f $KVM_IMAGE_DISK $KVM_IMAGE_DISK.gz
 
-    generate_onie_installer_image
+    [ -r $OUTPUT_ONIE_IMAGE] || {
+            echo "Warn: $OUTPUT_ONIE_IMAGE has not generated, going on...."
+            generate_onie_installer_image
+    }
 
     SONIC_USERNAME=$USERNAME PASSWD=$PASSWORD sudo -E ./scripts/build_kvm_image.sh $KVM_IMAGE_DISK $onie_recovery_image $OUTPUT_ONIE_IMAGE $KVM_IMAGE_DISK_SIZE
 
